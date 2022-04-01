@@ -1,32 +1,38 @@
-import { useRef, useEffect } from 'react';
+import { useCallback, useRef, useEffect, useState } from 'react';
 import canvasSketch from 'canvas-sketch';
 import { lerp } from 'canvas-sketch-util/math';
 import random from 'canvas-sketch-util/random';
 import palettes from 'nice-color-palettes';
 
-const settings = {
-  dimensions: [ 2048, 2048 ]
-};
-
-const sketch = () => {
-  const colorCount = random.rangeFloor(2, 6);
+const sketch = (values, seed) => {
+  const {
+    gridCount,
+    filterPercent,
+    colorCount,
+    symbol,
+    rotationMultiplier,
+    radiusMultiplier,
+    radiusXMultiplier,
+    radiusYMultiplier,
+    rotationXMultiplier,
+    rotationYMultiplier,
+  } = values;
   const shuffledPalette = random.shuffle(random.pick(palettes));
   const palette = shuffledPalette.slice(0, colorCount);
 
   const createGrid = () => {
     const points = [];
-    const count = 40;
 
-    for (let x = 0; x < count; x++) {
-      for (let y = 0; y < count; y++) {
-        const u = count <= 1 ? 0.5 : x / (count - 1);
-        const v = count <= 1 ? 0.5 : y / (count - 1);
-        const radius = Math.abs(random.noise2D(u, v)) * 0.2;
+    for (let x = 0; x < gridCount; x++) {
+      for (let y = 0; y < gridCount; y++) {
+        const u = gridCount <= 1 ? 0.5 : x / (gridCount - 1);
+        const v = gridCount <= 1 ? 0.5 : y / (gridCount - 1);
+        const radius = Math.abs(random.noise2D(u * radiusXMultiplier, v * radiusYMultiplier)) * radiusMultiplier;
 
         points.push({
           color: random.pick(palette),
           radius,
-          rotation: random.noise2D(u, v),
+          rotation: random.noise2D(u * rotationXMultiplier, v * rotationYMultiplier) * rotationMultiplier,
           position: [u, v]
         });
       }
@@ -35,8 +41,9 @@ const sketch = () => {
     return points;
   };
 
+  random.setSeed(seed)
   const points = createGrid()
-    .filter(() => random.value() > 0.5)
+    .filter(() => random.value() > (filterPercent / 100))
   const margin = 100;
 
   return ({ context, width, height }) => {
@@ -55,36 +62,57 @@ const sketch = () => {
 
       const x = lerp(margin, width - margin, u);
       const y = lerp(margin, height - margin, v);
+      // const x = width * u;
+      // const y = height * v;
 
       context.save();
       context.fillStyle = color;
-      context.font = `${radius * width}px "Helvetica"`;
+      context.font = `${radius * width}px "sans-serif"`;
       context.translate(x, y);
       context.rotate(rotation);
-      context.fillText('=', 0, 0);
+      context.fillText(symbol, 0, 0);
       context.restore();
     });
   };
 };
 
-export const Sketch = () => {
-  const ref = useRef();
+export const Sketch = ({ values }) => {
+  const canvasRef = useRef();
+  const managerRef = useRef();
+  const [seed, setSeed] = useState(random.value());
+
+  const start = useCallback(async () => {
+    const manager = await canvasSketch(
+      () => sketch(values, seed),
+      {
+        dimensions: [2048, 2048],
+        canvas: canvasRef.current
+      }
+    );
+    managerRef.current = manager;
+    return manager;
+  }, [canvasRef, values, seed])
 
   useEffect(() => {
-    const getSketchManager = async () =>
-      await canvasSketch(
-        sketch,
+    const start = async () => {
+      const manager = await canvasSketch(
+        () => sketch(values, seed),
         {
-          ...settings,
-          canvas: ref.current
+          dimensions: [2048, 2048],
+          canvas: canvasRef.current
         }
-      )
+      );
+      managerRef.current = manager;
+      return manager;
+    };
+    start()
+  }, [canvasRef, values, seed, start]);
 
-      getSketchManager();
-
-      return () =>
-        getSketchManager().then(sketchManager => sketchManager.destroy())
-  }, [ref]);
-
-  return <canvas ref={ref} />;
+  return (
+    <>
+      <canvas ref={canvasRef} />
+      <button type="button" onClick={() => managerRef.current.exportFrame()}>save</button>
+      <button type="button" onClick={() => setSeed(random.value())}>random</button>
+    </>
+  );
 }
