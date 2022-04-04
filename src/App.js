@@ -26,17 +26,33 @@ export function App() {
   return (
     <div style={{ margin: '20px' }}>
       <Sketch values={state} />
-      <div style={{ display: 'flex', flexDirection: 'column'}}>
+      <Grid>
         {Object.keys(initialState).map(type => (
-          <div style={{ dispay: 'flex' }} key={type}>
+          <ParamWrap key={type}>
             <label>{type}</label>
             <input
               value={state[type]}
               onChange={({ target: { value } }) => dispatch({ type, value })}
             />
-          </div>
+          </ParamWrap>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 }
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+`;
+
+const ParamWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  input {
+    margin-left: 8px;
+    font-size: 16px;
+    width: 60px;
+  }
+`;
