@@ -24,7 +24,7 @@ export function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <div style={{ margin: '20px' }}>
+    <Wrap>
       <Sketch values={state} />
       <Grid>
         {Object.keys(initialState).map(type => (
@@ -37,9 +37,18 @@ export function App() {
           </ParamWrap>
         ))}
       </Grid>
-    </div>
+    </Wrap>
   );
 }
+
+const Wrap = styled.main`
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  @media (min-width: 1000px) {
+    flex-direction: row;
+  }
+`;
 
 const Grid = styled.div`
   display: grid;

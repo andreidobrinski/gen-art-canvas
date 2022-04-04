@@ -45,14 +45,14 @@ export const Sketch = ({ values }) => {
   }, [canvasRef, values, seed, start, palette]);
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <canvas ref={canvasRef} />
       <ButtonWrap>
         <button type="button" onClick={() => setSeed(random.value())}>🔀 Pattern</button>
         <button type="button" onClick={() => setPalette(pickRandomPalette())}>🔀 Colours</button>
         <button type="button" onClick={() => managerRef.current.exportFrame()}>Save</button>
       </ButtonWrap>
-    </>
+    </div>
   );
 }
 
