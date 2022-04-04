@@ -1,8 +1,7 @@
 import { lerp } from 'canvas-sketch-util/math';
 import random from 'canvas-sketch-util/random';
-import palettes from 'nice-color-palettes';
 
-export const sketch = (values, seed) => {
+export const sketch = ({ values, seed, palette }) => {
   const {
     gridCount,
     filterPercent,
@@ -15,8 +14,8 @@ export const sketch = (values, seed) => {
     rotationXMultiplier,
     rotationYMultiplier,
   } = values;
-  const shuffledPalette = random.shuffle(random.pick(palettes));
-  const palette = shuffledPalette.slice(0, colorCount);
+  const shuffledPalette = random.shuffle(palette);
+  const colours = shuffledPalette.slice(0, colorCount);
 
   const createGrid = () => {
     const points = [];
@@ -28,7 +27,7 @@ export const sketch = (values, seed) => {
         const radius = Math.abs(random.noise2D(u * radiusXMultiplier, v * radiusYMultiplier)) * radiusMultiplier;
 
         points.push({
-          color: random.pick(palette),
+          color: random.pick(colours),
           radius,
           rotation: random.noise2D(u * rotationXMultiplier, v * rotationYMultiplier) * rotationMultiplier,
           position: [u, v]

@@ -2,12 +2,20 @@ import { useCallback, useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
+import palettes from 'nice-color-palettes';
 import { sketch } from './sketch.helper';
+
+function pickRandomPalette() {
+  const paletteIndex = Math.floor(Math.random() * 100 + 1);
+
+  return palettes[paletteIndex];
+};
 
 export const Sketch = ({ values }) => {
   const canvasRef = useRef();
   const managerRef = useRef();
   const [seed, setSeed] = useState(random.value());
+  const [palette, setPalette] = useState(pickRandomPalette());
 
   const start = useCallback(async () => {
     const manager = await canvasSketch(
@@ -24,7 +32,7 @@ export const Sketch = ({ values }) => {
   useEffect(() => {
     const start = async () => {
       const manager = await canvasSketch(
-        () => sketch(values, seed),
+        () => sketch({ values, seed, palette }),
         {
           dimensions: [2048, 2048],
           canvas: canvasRef.current
@@ -34,14 +42,15 @@ export const Sketch = ({ values }) => {
       return manager;
     };
     start()
-  }, [canvasRef, values, seed, start]);
+  }, [canvasRef, values, seed, start, palette]);
 
   return (
     <>
       <canvas ref={canvasRef} />
       <ButtonWrap>
+        <button type="button" onClick={() => setSeed(random.value())}>🔀 Pattern</button>
+        <button type="button" onClick={() => setPalette(pickRandomPalette())}>🔀 Colours</button>
         <button type="button" onClick={() => managerRef.current.exportFrame()}>Save</button>
-        <button type="button" onClick={() => setSeed(random.value())}>Random</button>
       </ButtonWrap>
     </>
   );
