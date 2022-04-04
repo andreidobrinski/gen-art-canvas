@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import styled from 'styled-components';
 import { Sketch } from './Sketch';
 
 const initialState = {
