@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
@@ -17,18 +17,6 @@ export const Sketch = ({ values }) => {
   const [seed, setSeed] = useState(random.value());
   const [palette, setPalette] = useState(pickRandomPalette());
 
-  const start = useCallback(async () => {
-    const manager = await canvasSketch(
-      () => sketch(values, seed),
-      {
-        dimensions: [2048, 2048],
-        canvas: canvasRef.current
-      }
-    );
-    managerRef.current = manager;
-    return manager;
-  }, [canvasRef, values, seed])
-
   useEffect(() => {
     const start = async () => {
       const manager = await canvasSketch(
@@ -42,7 +30,7 @@ export const Sketch = ({ values }) => {
       return manager;
     };
     start()
-  }, [canvasRef, values, seed, start, palette]);
+  }, [canvasRef, values, seed, palette]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
