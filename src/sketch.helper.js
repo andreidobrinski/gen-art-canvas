@@ -13,6 +13,7 @@ export const sketch = ({ values, seed, palette }) => {
     radiusYMultiplier,
     rotationXMultiplier,
     rotationYMultiplier,
+    bgColour,
   } = values;
   const shuffledPalette = random.shuffle(palette);
   const colours = shuffledPalette.slice(0, colorCount);
@@ -44,7 +45,7 @@ export const sketch = ({ values, seed, palette }) => {
   const margin = 100;
 
   return ({ context, width, height }) => {
-    context.fillStyle = 'white';
+    context.fillStyle = bgColour;
     context.fillRect(0, 0, width, height);
 
     points.forEach((data) => {

@@ -49,4 +49,9 @@ export const initialValues = {
     description: 'Multiplies against the Y value in the noise generator for rotation',
     value: 1,
   },
+  bgColour: {
+    name: 'Background Colour',
+    description: 'Use any CSS colour',
+    value: 'transparent',
+  },
 };
