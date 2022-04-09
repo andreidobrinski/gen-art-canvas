@@ -24,7 +24,8 @@ export function App() {
       <Sketch values={state} />
       <Grid>
         {Object.entries(state).map(([key, value]) => (
-          <ParamWrap key={key}>
+          <ParamWrap key={key} inputWidth={initialValues[key].inputWidth}>
+            {/* <button>▶▼</button> */}
             <label>{initialValues[key].name}</label>
             <input
               value={value}
@@ -59,9 +60,23 @@ const ParamWrap = styled.div`
   display: flex;
   align-items: center;
   margin-top: 8px;
+  width: fit-content;
+  /* border-bottom: 2px solid #03396c; */
   input {
-    margin-left: 8px;
+    /* transform: translate(6px, 4px); */
     font-size: 16px;
-    width: 60px;
+    width: ${({ inputWidth }) => inputWidth};
+    border: 2px solid #03396c;
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  label {
+    /* margin-bottom: -8px; */
+    padding: 4px;
+  }
+  button {
+    margin-bottom: -6px;
+    border: none;
+    background: none;
   }
 `;
