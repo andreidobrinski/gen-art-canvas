@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import styled from 'styled-components';
+import GithubCorner from 'react-github-corner';
 import { Sketch } from './Sketch';
 import { initialValues } from './initialValues';
 
@@ -32,6 +33,10 @@ export function App() {
           </ParamWrap>
         ))}
       </Grid>
+      <GithubCorner
+        href="https://andreidobrinski.com"
+        bannerColor="#03396c"
+      />
     </Wrap>
   );
 }

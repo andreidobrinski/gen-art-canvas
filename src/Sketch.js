@@ -53,7 +53,7 @@ const ButtonWrap = styled.div`
     border-radius: 6px;
     font-size: 16px;
     font-weight: bold;
-    color: rebeccapurple;
-    border: 2px solid rebeccapurple;
+    color: #03396c;
+    border: 2px solid #03396c;
   }
 `;
