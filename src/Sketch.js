@@ -46,6 +46,11 @@ export const Sketch = ({ values }) => {
 
 const ButtonWrap = styled.div`
   display: flex;
+  margin-left: 20px;
+  @media (min-width: 1000px) {
+    justify-content: flex-end;
+    margin-right: 20px;
+  }
   button {
     padding: 4px 8px;
     cursor: pointer;
