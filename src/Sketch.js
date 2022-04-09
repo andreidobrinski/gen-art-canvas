@@ -38,7 +38,7 @@ export const Sketch = ({ values }) => {
       <ButtonWrap>
         <button type="button" onClick={() => setSeed(random.value())}>🔀 Pattern</button>
         <button type="button" onClick={() => setPalette(pickRandomPalette())}>🔀 Colours</button>
-        <button type="button" onClick={() => managerRef.current.exportFrame()}>Save</button>
+        <button type="button" onClick={() => managerRef.current.exportFrame()}>💾 Save</button>
       </ButtonWrap>
     </div>
   );
@@ -47,6 +47,7 @@ export const Sketch = ({ values }) => {
 const ButtonWrap = styled.div`
   display: flex;
   margin-left: 20px;
+  gap: 8px;
   @media (min-width: 1000px) {
     justify-content: flex-end;
     margin-right: 20px;
