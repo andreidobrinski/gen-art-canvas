@@ -59,10 +59,10 @@ export const initialValues = {
     value: 1,
     inputWidth: '40px',
   },
-  bgColour: {
-    name: 'Background Colour',
-    description: 'Use any CSS colour',
-    value: 'transparent',
-    inputWidth: '100px',
-  },
+  // bgColour: {
+  //   name: 'Background Colour',
+  //   description: 'Use any CSS colour',
+  //   value: 'transparent',
+  //   inputWidth: '100px',
+  // },
 };
