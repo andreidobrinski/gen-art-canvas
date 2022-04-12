@@ -4,7 +4,7 @@
 
 A UI for playing around with parameters in a generative art example.
 
-<!-- [link to demo]() -->
+[Link to demo](https://andreidobrinski.com/gen-art-canvas/)
 
 Original generative art sketch is done by Matt DesLauriers' Frontend Masters course, [Creative Coding with Canvas & WebGL](https://frontendmasters.com/courses/canvas-webgl/)
 
