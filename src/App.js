@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import GithubCorner from 'react-github-corner';
 import { Sketch } from './Sketch';
 import { initialValues } from './initialValues';
+import { Param } from './Param';
 
 const reducer = (state, action) => {
   const newState = {
@@ -50,14 +51,12 @@ export function App() {
       <Sketch values={state} />
       <Grid>
         {Object.entries(state).map(([key, value]) => (
-          <ParamWrap key={key} inputWidth={initialValues[key].inputWidth}>
-            {/* <button>▶▼</button> */}
-            <label>{initialValues[key].name}</label>
-            <input
-              value={value}
-              onChange={({ target: { value } }) => dispatch({ type: key, value })}
-            />
-          </ParamWrap>
+          <Param
+            key={key}
+            type={key}
+            value={value}
+            onChange={({ target: { value } }) => dispatch({ type: key, value }) }
+          />
         ))}
       </Grid>
       <GithubCorner
@@ -81,29 +80,4 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   margin-left: 20px;
-`;
-
-const ParamWrap = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
-  width: fit-content;
-  /* border-bottom: 2px solid #03396c; */
-  input {
-    /* transform: translate(6px, 4px); */
-    font-size: 16px;
-    width: ${({ inputWidth }) => inputWidth};
-    border: 2px solid #03396c;
-    padding: 6px 8px;
-    border-radius: 6px;
-  }
-  label {
-    /* margin-bottom: -8px; */
-    padding: 4px;
-  }
-  button {
-    margin-bottom: -6px;
-    border: none;
-    background: none;
-  }
 `;
