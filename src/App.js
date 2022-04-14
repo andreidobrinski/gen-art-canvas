@@ -4,10 +4,36 @@ import GithubCorner from 'react-github-corner';
 import { Sketch } from './Sketch';
 import { initialValues } from './initialValues';
 
-const reducer = (state, action) => ({
-  ...state,
-  [action.type]: action.value
-})
+const reducer = (state, action) => {
+  const newState = {
+    ...state,
+    [action.type]: action.value,
+  };
+
+  const limitStateUpdate = (type, value, limit) => {
+    if (value > limit) {
+      return {
+        ...newState,
+        [type]: limit,
+      };
+    }
+    return {
+      ...newState,
+      [type]: value,
+    }
+  }
+
+  switch (action.type) {
+    case 'gridCount':
+      return limitStateUpdate(action.type, action.value, 99);
+    case 'colorCount':
+      return limitStateUpdate(action.type, action.value, 5);
+    case 'filterPercent':
+      return limitStateUpdate(action.type, action.value, 100);
+    default:
+      return newState;
+  };
+};
 
 const initialState = Object.entries(initialValues).reduce((acc, current) => {
   return {
