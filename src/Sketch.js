@@ -51,6 +51,7 @@ const ButtonWrap = styled.div`
   @media (min-width: 1000px) {
     justify-content: flex-end;
     margin-right: 20px;
+    margin-top: 10px;
   }
   button {
     padding: 4px 8px;
