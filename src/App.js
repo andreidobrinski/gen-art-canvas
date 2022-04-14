@@ -35,7 +35,7 @@ export function App() {
         ))}
       </Grid>
       <GithubCorner
-        href="https://andreidobrinski.com"
+        href="https://github.com/andreidobrinski/gen-art-canvas"
         bannerColor="#03396c"
       />
     </Wrap>
